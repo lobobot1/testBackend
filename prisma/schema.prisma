@@ -21,7 +21,7 @@ model Product {
   handle        String    @unique
   title         String
   description   String
-  sku           String    @unique
+  sku           String    
   grams         Float
   stock         Int
   price         Float
