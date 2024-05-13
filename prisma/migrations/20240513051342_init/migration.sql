@@ -13,7 +13,6 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Product" (
-    "id" SERIAL NOT NULL,
     "handle" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
@@ -23,11 +22,12 @@ CREATE TABLE "Product" (
     "price" DOUBLE PRECISION NOT NULL,
     "compare_price" INTEGER NOT NULL,
     "barcode" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3)
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Product_handle_key" ON "Product"("handle");
