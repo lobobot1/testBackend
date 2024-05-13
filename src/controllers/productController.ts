@@ -47,6 +47,11 @@ class productController {
 
   async getById(req: Request, res: Response) {
     const { name } = req.params;
+
+    if (!name) {
+      return res.status(400).json({ error: "Missing product name" });
+    }
+
     try {
       const product = await prisma.product.findUnique({
         where: {
@@ -142,27 +147,68 @@ class productController {
 
   async update(req: Request, res: Response) {
     const { name } = req.params;
-    const { price, sku, grams, stock, compare_price, barcode, description } =
-      req.body;
-    const title = name.split("-").join(" ").toUpperCase();
+    const {
+      price,
+      sku,
+      grams,
+      stock,
+      compare_price,
+      barcode,
+      description,
+      title,
+    } = req.body as Product;
+
+    if (
+      !name ||
+      !price ||
+      !sku ||
+      !grams ||
+      !stock ||
+      !compare_price ||
+      !barcode ||
+      !description ||
+      !title ||
+      Number.isNaN(price) ||
+      Number.isNaN(grams) ||
+      Number.isNaN(stock) ||
+      Number.isNaN(compare_price) ||
+      Number(price) < 0 ||
+      Number(grams) < 0 ||
+      Number(stock) < 0 ||
+      Number(compare_price) < 0
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
     try {
+      const auxProduct = await prisma.product.findUnique({
+        where: {
+          handle: name,
+        },
+      });
+
+      if (!auxProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+
       const product = await prisma.product.update({
         where: {
           handle: name,
         },
         data: {
-          title,
-          price,
+          title: title.toUpperCase(),
+          price: Number(price),
           sku,
-          grams,
-          stock,
-          compare_price,
+          grams: Number(grams),
+          stock: Number(stock),
+          compare_price: Number(compare_price),
           barcode,
           description,
         },
       });
       res.status(200).json(product);
     } catch (err) {
+      console.log(err);
       res.status(500).json({ error: "Error updating product" });
     }
   }
