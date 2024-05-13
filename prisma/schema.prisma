@@ -17,17 +17,16 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-
 model Product {
-  handle        String @unique
+  handle        String    @unique
   title         String
   description   String
-  sku           String
+  sku           String    @unique
   grams         Float
   stock         Int
   price         Float
   compare_price Int
   barcode       String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
 }
