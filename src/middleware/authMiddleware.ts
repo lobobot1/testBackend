@@ -7,7 +7,7 @@ dotenv.config();
 
 const requireAuth = async (req: Request, res: Response, next: any) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader;
+  const token = authHeader && authHeader.includes(" ") ? authHeader.split(" ")[1] : authHeader;
 
   if (token) {
     try {
@@ -31,7 +31,6 @@ const requireAuth = async (req: Request, res: Response, next: any) => {
       }
 
       next();
-
       return;
     } catch (err) {
       console.log(err);
