@@ -19,6 +19,14 @@ const requireAuth = async (req: Request, res: Response, next: any) => {
         }
       );
 
+      const date = new Date((payload?.exp as number) * 1000);
+      const currentDate = new Date();
+
+      if (date < currentDate) {
+        res.status(401).json({ error: "Unauthorized" });
+        return;
+      }
+
       const user = await prisma.user.findUnique({
         where: {
           id: payload.id as string,
