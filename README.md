@@ -31,3 +31,7 @@ To run this project, you will need to complete the following environment variabl
 `JWT_SECRET`
 
 IMPORTANT, make sure the back secret equals the front secret. To configure the database url please enter the following [link](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-typescript-postgresql) to know what to change, I did everything with postgresql
+
+## Database
+
+In order for the database to work perfectly, they must have exactly the same fields that are defined in the file "prisma -> schema.prisma". This is where the database tables are defined. I am happy to answer any questions when they go to review and execute the project.
